@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
+
+    <data>
+
+        <variable
+            name="weather"
+            type="com.example.weatherapp.viewModel.WeatherViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg"
+        android:focusableInTouchMode="true">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_city_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="48dp"
+            android:afterTextChanged="@{weather.onTextChange}"
+            android:drawableEnd="@drawable/ic_baseline_youtube_searched_for_24"
+            android:hint="@string/input_the_city_name"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:maxLines="1"
+            android:onEditorAction="@{(view, actionId, event) -> weather.onDoneClicked(view, actionId, event)}"
+            android:padding="16dp"
+            android:paddingBottom="4dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </androidx.appcompat.widget.AppCompatEditText>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/alfa_slab_one"
+            android:gravity="center"
+            android:text="@{weather.weatherDataList.location.name}"
+            android:textColor="@android:color/primary_text_dark"
+            android:textSize="40sp"
+            app:fontFamily="@font/alfa_slab_one"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_city_name" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/alfa_slab_one"
+            android:text="@{weather.getTemp(weather.weatherDataList.current.tempC)}"
+            android:textColor="@android:color/primary_text_dark"
+            android:textSize="40sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_city_name" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/alfa_slab_one"
+            android:text="@{weather.weatherDataList.current.condition.text}"
+            android:textColor="@android:color/primary_text_dark"
+            android:textSize="32sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_temp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_image"
+            imageFromUrl="@{weather.getImageFromUrl(weather.weatherDataList.current.condition.icon)}"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_condition">
+
+        </androidx.appcompat.widget.AppCompatImageView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_hourly_forcast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/alfa_slab_one"
+            android:text="@string/hourly_forcast"
+            android:textColor="@android:color/primary_text_dark"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_image" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_forcast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/home_background"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/tv_hourly_forcast"
+            tools:listitem="@layout/forcast_item">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <ProgressBar
+            android:id="@+id/pregress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </ProgressBar>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
